@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+typedef long long int lli;
 
 struct linea {
-    float m;
-    float c;
+    lli m;
+    lli c;
     int id;
     float x; // La interseccion con la linea anterior
     // Para el rango de [x, inf), esta linea es optima
@@ -21,13 +22,13 @@ float interseccion(linea A, linea B) {
     // Supongamos que nunca habra dos pendientes iguales
     return (B.c - A.c) / (A.m - B.m);
 }
-float evaluar(linea L, float x) {
+lli evaluar(linea L, lli x) {
     return L.m * x + L.c;
 }
 
 vector<linea> lineas_vivas;
 
-void agregar_linea(float m, float c, int id) {
+void agregar_linea(lli m, lli c, int id) {
     // La pendiente es mayor a las demas, entonces siempre agregaremos esta nueva linea
     
     linea nueva_linea = (linea){m, c, id, -1e18};
@@ -52,7 +53,7 @@ void agregar_linea(float m, float c, int id) {
     lineas_vivas.push_back(nueva_linea);
 }
 
-float query(float x) {
+lli query(lli x) {
     int in = 0, fin = (int) lineas_vivas.size(), mit;
     // linea[in].x <= x
     // linea[fin-1].x <= x ?    NO sabemos
@@ -104,11 +105,11 @@ int main () {
         int operacion;
         cin >> operacion;
         if (operacion == 1) {
-            float m, c;
+            lli m, c;
             cin >> m >> c;
             agregar_linea(m, c, i);
         } else {
-            float x;
+            lli x;
             cin >> x;
             cout << query(x) << "\n";
         }
