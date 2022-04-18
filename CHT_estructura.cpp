@@ -72,6 +72,28 @@ float query(float x) {
     // return lineas_vivas[in].id;
 }
 
+lli x_prev = -1e18; // Valor de 'x_prev'
+int linea_prev = 0; // Linea optima de 'x_prev'
+                    // lineas_vivas[linea_prev].x <= x_prev   <= x
+lli query_constante(lli x) {
+    // x_prev < x
+    // linea_prev ya cumple
+    // lineas_vivas[linea_prev].x <= x
+    linea_prev = min(linea_prev, (int) lineas_vivas.size() - 1);
+    
+    while (linea_prev + 1 < lineas_vivas.size()) {
+        if (lineas_vivas[linea_prev+1].x <= x){
+            // Encontramos una mejor
+            linea_prev++;
+        } else {
+            // Ya encontramos la requete-optima
+            break;
+        }
+    }
+    x_prev = x;
+    return evaluar(lineas_vivas[linea_prev], x);
+}
+
 int main () {
     // Vamos a recibir Q queries
     //    1 m c  (una nueva linea)   (las pendientes siempre iran aumentando)
